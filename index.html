@@ -20,6 +20,45 @@
             --transition: all 0.3s ease;
         }
 
+        .theme-dark {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #fd79a8;
+            --success: #00b894;
+            --danger: #d63031;
+            --warning: #fdcb6e;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --bg-gradient: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            --card-bg: rgba(45, 52, 54, 0.7);
+        }
+
+        .theme-neon {
+            --primary: #00cec9;
+            --primary-dark: #00a8a3;
+            --secondary: #e84393;
+            --success: #00b894;
+            --danger: #e84118;
+            --warning: #fbc531;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --bg-gradient: linear-gradient(135deg, #0984e3 0%, #00cec9 100%);
+            --card-bg: rgba(0, 206, 201, 0.1);
+        }
+
+        .theme-pastel {
+            --primary: #a29bfe;
+            --primary-dark: #817bfe;
+            --secondary: #fd79a8;
+            --success: #55efc4;
+            --danger: #ff7675;
+            --warning: #ffeaa7;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --bg-gradient: linear-gradient(135deg, #fd79a8 0%, #a29bfe 100%);
+            --card-bg: rgba(253, 121, 168, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -37,6 +76,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background 0.5s ease;
         }
 
         /* Particle Background */
@@ -145,7 +185,7 @@
             font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 10px;
-            background: linear-gradient(to right, #fff, #fd79a8);
+            background: linear-gradient(to right, #fff, var(--secondary));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -890,6 +930,335 @@
             transform: scale(1.1);
         }
 
+        /* Achievement System */
+        .achievements-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .achievement-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-card.locked {
+            opacity: 0.6;
+            filter: grayscale(1);
+        }
+
+        .achievement-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .achievement-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .achievement-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .achievement-progress {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .achievement-progress-fill {
+            height: 100%;
+            background: var(--success);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .achievement-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--warning);
+            color: var(--dark);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Daily Rewards */
+        .daily-rewards-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .rewards-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .reward-day {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px 10px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .reward-day.claimed {
+            background: var(--success);
+            color: white;
+        }
+
+        .reward-day.available {
+            background: var(--primary);
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .reward-day.future {
+            opacity: 0.5;
+        }
+
+        .reward-xp {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .reward-day-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .streak-info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Themes */
+        .themes-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .theme-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .theme-card.active {
+            border-color: var(--primary);
+        }
+
+        .theme-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .theme-preview {
+            width: 100%;
+            height: 100px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            background: var(--bg-gradient);
+        }
+
+        .theme-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        /* Tournament Mode */
+        .tournament-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .tournament-bracket {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tournament-round {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .round-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .tournament-match {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .match-player {
+            flex: 1;
+            text-align: center;
+        }
+
+        .match-vs {
+            margin: 0 10px;
+            opacity: 0.7;
+        }
+
+        .match-winner {
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px 20px;
+            box-shadow: var(--glow);
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .notification-message {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Tutorial */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .tutorial-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .tutorial-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--glow);
+        }
+
+        .tutorial-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .tutorial-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .tutorial-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tutorial-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: var(--transition);
+        }
+
+        .tutorial-indicator.active {
+            background: var(--primary);
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .title {
@@ -916,6 +1285,14 @@
             .profile-section {
                 justify-content: center;
                 text-align: center;
+            }
+
+            .rewards-calendar {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .themes-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -947,6 +1324,10 @@
             .modes-grid {
                 grid-template-columns: 1fr;
             }
+
+            .rewards-calendar {
+                grid-template-columns: repeat(3, 1fr);
+            }
         }
 
         @media (max-height: 700px) {
@@ -959,8 +1340,51 @@
     </style>
 </head>
 <body>
+    <!-- Audio Elements -->
+    <audio id="bg-music" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-game-show-suspense-waiting-667.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="click-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="win-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="lose-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-sad-game-over-trombone-471.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="draw-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="achievement-sound">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- Particle Background -->
     <div class="particles" id="particles"></div>
+
+    <!-- Notification System -->
+    <div class="notification" id="notification">
+        <div class="notification-title" id="notification-title">Achievement Unlocked!</div>
+        <div class="notification-message" id="notification-message">First Win - Win your first game</div>
+    </div>
+
+    <!-- Tutorial Overlay -->
+    <div class="tutorial-overlay" id="tutorial-overlay">
+        <div class="tutorial-card">
+            <div class="tutorial-title" id="tutorial-title">Welcome to Tic Tac Master!</div>
+            <div class="tutorial-content" id="tutorial-content">
+                This is a premium Tic Tac Toe experience with multiple game modes, AI opponents, and a progression system.
+                Let's get started by entering your username!
+            </div>
+            <div class="tutorial-indicators">
+                <div class="tutorial-indicator active"></div>
+                <div class="tutorial-indicator"></div>
+                <div class="tutorial-indicator"></div>
+            </div>
+            <button class="btn" id="tutorial-next">Next</button>
+        </div>
+    </div>
 
     <!-- Opening Animation Screen -->
     <div class="screen active" id="opening-screen">
@@ -1017,6 +1441,10 @@
                             <div class="stat-value" id="draws-count">0</div>
                             <div class="stat-label">Draws</div>
                         </div>
+                        <div class="stat">
+                            <div class="stat-value" id="streak-count">0</div>
+                            <div class="stat-label">Streak</div>
+                        </div>
                     </div>
                 </div>
                 <button class="btn" id="edit-profile">Edit Profile</button>
@@ -1043,10 +1471,20 @@
                     <div class="menu-title">Statistics</div>
                     <div class="menu-desc">View your stats</div>
                 </div>
-                <div class="menu-item" data-screen="rules-screen">
-                    <div class="menu-icon">📖</div>
-                    <div class="menu-title">How to Play</div>
-                    <div class="menu-desc">Game rules</div>
+                <div class="menu-item" data-screen="achievements-screen">
+                    <div class="menu-icon">🏆</div>
+                    <div class="menu-title">Achievements</div>
+                    <div class="menu-desc">Earn badges & rewards</div>
+                </div>
+                <div class="menu-item" data-screen="daily-rewards-screen">
+                    <div class="menu-icon">🎁</div>
+                    <div class="menu-title">Daily Rewards</div>
+                    <div class="menu-desc">Claim your daily bonus</div>
+                </div>
+                <div class="menu-item" data-screen="themes-screen">
+                    <div class="menu-icon">🎨</div>
+                    <div class="menu-title">Themes</div>
+                    <div class="menu-desc">Customize appearance</div>
                 </div>
                 <div class="menu-item" data-screen="settings-screen">
                     <div class="menu-icon">⚙️</div>
@@ -1110,6 +1548,14 @@
                     <div class="mode-xp">
                         <span>XP Reward:</span>
                         <span class="xp-value">Win: 40 | Draw: 20 | Loss: 10</span>
+                    </div>
+                </div>
+                <div class="mode-card" data-mode="tournament">
+                    <div class="mode-title">Tournament</div>
+                    <div class="mode-desc">Compete in a multi-round tournament</div>
+                    <div class="mode-xp">
+                        <span>XP Reward:</span>
+                        <span class="xp-value">Win: 50 | Finalist: 30</span>
                     </div>
                 </div>
             </div>
@@ -1180,6 +1626,7 @@
             <div class="game-header">
                 <div class="current-player" id="current-player">Player X's Turn</div>
                 <div class="game-mode" id="game-mode">Classic 3x3</div>
+                <div class="timer" id="game-timer">Time: 0:00</div>
             </div>
             <div class="game-board" id="game-board">
                 <!-- Cells will be generated by JavaScript -->
@@ -1261,6 +1708,50 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card" style="margin-top: 30px;">
+                <h3 style="margin-bottom: 15px;">Performance by Mode</h3>
+                <div id="mode-stats">
+                    <!-- Mode stats will be generated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievements Screen -->
+    <div class="screen" id="achievements-screen">
+        <button class="back-btn" id="achievements-back">←</button>
+        <div class="achievements-container">
+            <h2>Achievements</h2>
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- Achievements will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Daily Rewards Screen -->
+    <div class="screen" id="daily-rewards-screen">
+        <button class="back-btn" id="daily-rewards-back">←</button>
+        <div class="daily-rewards-container">
+            <h2>Daily Rewards</h2>
+            <div class="rewards-calendar" id="rewards-calendar">
+                <!-- Daily rewards will be generated here -->
+            </div>
+            <div class="streak-info" id="streak-info">
+                Current Streak: <span id="current-streak-display">0</span> days
+            </div>
+            <button class="btn" id="claim-reward" style="margin-top: 20px; width: 100%;">Claim Today's Reward</button>
+        </div>
+    </div>
+
+    <!-- Themes Screen -->
+    <div class="screen" id="themes-screen">
+        <button class="back-btn" id="themes-back">←</button>
+        <div class="themes-container">
+            <h2>Themes</h2>
+            <div class="themes-grid" id="themes-grid">
+                <!-- Themes will be generated here -->
+            </div>
         </div>
     </div>
 
@@ -1310,6 +1801,16 @@
                         <span class="slider"></span>
                     </label>
                 </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <div class="setting-title">Tutorial</div>
+                        <div class="setting-desc">Show tutorial for new features</div>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="tutorial-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
             </div>
 
             <div class="card" style="margin-top: 20px;">
@@ -1332,7 +1833,7 @@
             <div class="card" style="margin-top: 20px; text-align: center;">
                 <h3>About Tic Tac Master</h3>
                 <p style="margin: 15px 0; opacity: 0.8;">A premium Tic Tac Toe experience with multiple game modes, AI opponents, and progression system.</p>
-                <p style="opacity: 0.7;">Version 1.0 | Made with ❤️ by Rutudev</p>
+                <p style="opacity: 0.7;">Version 2.0 | Made with ❤️ by Rutudev</p>
             </div>
         </div>
     </div>
@@ -1373,6 +1874,9 @@
                     </li>
                     <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
                         <strong>XP Rush:</strong> Earn bonus XP for quick victories.
+                    </li>
+                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
+                        <strong>Tournament Mode:</strong> Compete in a multi-round tournament.
                     </li>
                 </ul>
                 
@@ -1417,6 +1921,8 @@
             musicEnabled: false,
             animationsEnabled: true,
             vibrationEnabled: false,
+            tutorialEnabled: true,
+            currentTheme: 'default',
             
             // Current game state
             currentMode: 'classic',
@@ -1430,10 +1936,137 @@
             aiName: 'AI',
             gameResult: null,
             
+            // Achievement system
+            achievements: [
+                {
+                    id: 'first_win',
+                    name: 'First Win',
+                    description: 'Win your first game',
+                    icon: '🏆',
+                    xpReward: 50,
+                    achieved: false,
+                    progress: 0,
+                    target: 1
+                },
+                {
+                    id: 'five_wins',
+                    name: 'Victorious',
+                    description: 'Win 5 games',
+                    icon: '⭐',
+                    xpReward: 100,
+                    achieved: false,
+                    progress: 0,
+                    target: 5
+                },
+                {
+                    id: 'ten_wins',
+                    name: 'Tic Tac Master',
+                    description: 'Win 10 games',
+                    icon: '👑',
+                    xpReward: 200,
+                    achieved: false,
+                    progress: 0,
+                    target: 10
+                },
+                {
+                    id: 'beat_rutu',
+                    name: 'Rutu Conqueror',
+                    description: 'Beat Rutu on Hard difficulty',
+                    icon: '😎',
+                    xpReward: 300,
+                    achieved: false,
+                    progress: 0,
+                    target: 1
+                },
+                {
+                    id: 'streak_5',
+                    name: 'Hot Streak',
+                    description: 'Achieve a 5-game win streak',
+                    icon: '🔥',
+                    xpReward: 150,
+                    achieved: false,
+                    progress: 0,
+                    target: 5
+                },
+                {
+                    id: 'level_10',
+                    name: 'Decade',
+                    description: 'Reach level 10',
+                    icon: '🔟',
+                    xpReward: 500,
+                    achieved: false,
+                    progress: 1,
+                    target: 10
+                },
+                {
+                    id: 'perfect_game',
+                    name: 'Flawless Victory',
+                    description: 'Win without the opponent making a move',
+                    icon: '💎',
+                    xpReward: 250,
+                    achieved: false,
+                    progress: 0,
+                    target: 1
+                },
+                {
+                    id: 'draw_master',
+                    name: 'Peacekeeper',
+                    description: 'Play 10 draw games',
+                    icon: '🤝',
+                    xpReward: 100,
+                    achieved: false,
+                    progress: 0,
+                    target: 10
+                }
+            ],
+            
+            // Daily rewards system
+            dailyRewards: [
+                { day: 1, xp: 10 },
+                { day: 2, xp: 20 },
+                { day: 3, xp: 30 },
+                { day: 4, xp: 40 },
+                { day: 5, xp: 50 },
+                { day: 6, xp: 75 },
+                { day: 7, xp: 100 }
+            ],
+            lastLoginDate: null,
+            currentStreak: 0,
+            claimedRewards: [],
+            
+            // Statistics by mode
+            modeStats: {
+                classic: { wins: 0, losses: 0, draws: 0 },
+                'big-board': { wins: 0, losses: 0, draws: 0 },
+                impossible: { wins: 0, losses: 0, draws: 0 },
+                'two-player': { wins: 0, losses: 0, draws: 0 },
+                timed: { wins: 0, losses: 0, draws: 0 },
+                'xp-rush': { wins: 0, losses: 0, draws: 0 },
+                tournament: { wins: 0, losses: 0, draws: 0 }
+            },
+            
+            // Tournament state
+            tournament: {
+                active: false,
+                round: 1,
+                matches: [],
+                players: [],
+                winner: null
+            },
+            
             // Initialize from localStorage
             init() {
                 this.loadFromStorage();
                 this.updateUI();
+                this.checkDailyReward();
+                this.applyTheme();
+                
+                // Show tutorial if enabled and first time
+                if (this.tutorialEnabled && !this.username) {
+                    setTimeout(() => {
+                        this.showTutorial();
+                    }, 500);
+                }
             },
             
             // Save to localStorage
@@ -1451,8 +2084,15 @@
                     musicEnabled: this.musicEnabled,
                     animationsEnabled: this.animationsEnabled,
                     vibrationEnabled: this.vibrationEnabled,
+                    tutorialEnabled: this.tutorialEnabled,
+                    currentTheme: this.currentTheme,
                     currentMode: this.currentMode,
-                    currentDifficulty: this.currentDifficulty
+                    currentDifficulty: this.currentDifficulty,
+                    achievements: this.achievements,
+                    lastLoginDate: this.lastLoginDate,
+                    dailyStreak: this.currentStreak,
+                    claimedRewards: this.claimedRewards,
+                    modeStats: this.modeStats
                 };
                 localStorage.setItem('ticTacMasterData', JSON.stringify(data));
             },
@@ -1473,8 +2113,15 @@
                     this.musicEnabled = data.musicEnabled || false;
                     this.animationsEnabled = data.animationsEnabled !== undefined ? data.animationsEnabled : true;
                     this.vibrationEnabled = data.vibrationEnabled || false;
+                    this.tutorialEnabled = data.tutorialEnabled !== undefined ? data.tutorialEnabled : true;
+                    this.currentTheme = data.currentTheme || 'default';
                     this.currentMode = data.currentMode || 'classic';
                     this.currentDifficulty = data.currentDifficulty || 'medium';
+                    this.achievements = data.achievements || this.achievements;
+                    this.lastLoginDate = data.lastLoginDate || null;
+                    this.currentStreak = data.dailyStreak || 0;
+                    this.claimedRewards = data.claimedRewards || [];
+                    this.modeStats = data.modeStats || this.modeStats;
                 }
                 
                 // Calculate XP to next level
@@ -1499,6 +2146,7 @@
                 document.getElementById('wins-count').textContent = this.wins;
                 document.getElementById('losses-count').textContent = this.losses;
                 document.getElementById('draws-count').textContent = this.draws;
+                document.getElementById('streak-count').textContent = this.currentStreak;
                 
                 // Update stats screen
                 const totalGames = this.wins + this.losses + this.draws;
@@ -1523,11 +2171,360 @@
                 document.getElementById('losses-percent').textContent = `${Math.round(lossesPercent)}%`;
                 document.getElementById('draws-percent').textContent = `${Math.round(drawsPercent)}%`;
                 
+                // Update mode stats
+                this.updateModeStats();
+                
                 // Update settings toggles
                 document.getElementById('sound-toggle').checked = this.soundEnabled;
                 document.getElementById('music-toggle').checked = this.musicEnabled;
                 document.getElementById('animations-toggle').checked = this.animationsEnabled;
                 document.getElementById('vibration-toggle').checked = this.vibrationEnabled;
+                document.getElementById('tutorial-toggle').checked = this.tutorialEnabled;
+                
+                // Update achievements
+                this.updateAchievementsUI();
+                
+                // Update daily rewards
+                this.updateDailyRewardsUI();
+                
+                // Update themes
+                this.updateThemesUI();
+                
+                // Update audio based on settings
+                this.updateAudio();
+            },
+            
+            // Update mode statistics display
+            updateModeStats() {
+                const modeStatsElement = document.getElementById('mode-stats');
+                if (!modeStatsElement) return;
+                
+                let html = '';
+                for (const mode in this.modeStats) {
+                    const stats = this.modeStats[mode];
+                    const total = stats.wins + stats.losses + stats.draws;
+                    if (total === 0) continue;
+                    
+                    const winRate = Math.round((stats.wins / total) * 100);
+                    
+                    html += `
+                        <div class="progress-item">
+                            <div class="progress-label">
+                                <span>${this.getModeName(mode)}</span>
+                                <span>${winRate}% (${stats.wins}/${total})</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${winRate}%; background: var(--primary);"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                modeStatsElement.innerHTML = html || '<p style="text-align: center; opacity: 0.7;">No mode statistics yet</p>';
+            },
+            
+            // Get display name for game mode
+            getModeName(mode) {
+                const modeNames = {
+                    'classic': 'Classic 3x3',
+                    'big-board': 'Big Board 5x5',
+                    'impossible': 'Impossible',
+                    'two-player': '2-Player',
+                    'timed': 'Timed',
+                    'xp-rush': 'XP Rush',
+                    'tournament': 'Tournament'
+                };
+                return modeNames[mode] || mode;
+            },
+            
+            // Update achievements UI
+            updateAchievementsUI() {
+                const achievementsGrid = document.getElementById('achievements-grid');
+                if (!achievementsGrid) return;
+                
+                let html = '';
+                this.achievements.forEach(achievement => {
+                    const progressPercent = (achievement.progress / achievement.target) * 100;
+                    html += `
+                        <div class="achievement-card ${achievement.achieved ? '' : 'locked'}">
+                            <div class="achievement-icon">${achievement.icon}</div>
+                            <div class="achievement-title">${achievement.name}</div>
+                            <div class="achievement-desc">${achievement.description}</div>
+                            ${!achievement.achieved ? `
+                                <div class="achievement-progress">
+                                    <div class="achievement-progress-fill" style="width: ${progressPercent}%"></div>
+                                </div>
+                                <div class="achievement-progress-text">${achievement.progress}/${achievement.target}</div>
+                            ` : `
+                                <div class="achievement-badge">${achievement.xpReward} XP</div>
+                            `}
+                        </div>
+                    `;
+                });
+                
+                achievementsGrid.innerHTML = html;
+            },
+            
+            // Update daily rewards UI
+            updateDailyRewardsUI() {
+                const rewardsCalendar = document.getElementById('rewards-calendar');
+                const streakInfo = document.getElementById('streak-info');
+                const claimButton = document.getElementById('claim-reward');
+                
+                if (!rewardsCalendar) return;
+                
+                // Calculate today's date and check if reward is available
+                const today = new Date().toDateString();
+                const lastClaim = this.lastLoginDate ? new Date(this.lastLoginDate).toDateString() : null;
+                const canClaim = lastClaim !== today;
+                
+                let html = '';
+                this.dailyRewards.forEach((reward, index) => {
+                    const day = index + 1;
+                    let className = 'reward-day';
+                    
+                    if (this.claimedRewards.includes(day)) {
+                        className += ' claimed';
+                    } else if (canClaim && day === this.currentStreak + 1) {
+                        className += ' available';
+                    } else if (day > this.currentStreak + 1) {
+                        className += ' future';
+                    }
+                    
+                    html += `
+                        <div class="${className}" data-day="${day}">
+                            <div class="reward-xp">+${reward.xp}</div>
+                            <div class="reward-day-label">Day ${day}</div>
+                        </div>
+                    `;
+                });
+                
+                rewardsCalendar.innerHTML = html;
+                streakInfo.innerHTML = `Current Streak: <span id="current-streak-display">${this.currentStreak}</span> days`;
+                
+                // Update claim button
+                if (claimButton) {
+                    claimButton.textContent = canClaim ? "Claim Today's Reward" : "Already Claimed Today";
+                    claimButton.disabled = !canClaim;
+                }
+            },
+            
+            // Update themes UI
+            updateThemesUI() {
+                const themesGrid = document.getElementById('themes-grid');
+                if (!themesGrid) return;
+                
+                const themes = [
+                    { id: 'default', name: 'Default', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
+                    { id: 'dark', name: 'Dark', gradient: 'linear-gradient(135deg, #2d3436 0%, #636e72 100%)' },
+                    { id: 'neon', name: 'Neon', gradient: 'linear-gradient(135deg, #0984e3 0%, #00cec9 100%)' },
+                    { id: 'pastel', name: 'Pastel', gradient: 'linear-gradient(135deg, #fd79a8 0%, #a29bfe 100%)' }
+                ];
+                
+                let html = '';
+                themes.forEach(theme => {
+                    html += `
+                        <div class="theme-card ${this.currentTheme === theme.id ? 'active' : ''}" data-theme="${theme.id}">
+                            <div class="theme-preview" style="background: ${theme.gradient};"></div>
+                            <div class="theme-name">${theme.name}</div>
+                        </div>
+                    `;
+                });
+                
+                themesGrid.innerHTML = html;
+            },
+            
+            // Apply selected theme
+            applyTheme() {
+                document.body.className = this.currentTheme !== 'default' ? `theme-${this.currentTheme}` : '';
+            },
+            
+            // Check and claim daily reward
+            checkDailyReward() {
+                const today = new Date().toDateString();
+                const lastClaim = this.lastLoginDate ? new Date(this.lastLoginDate).toDateString() : null;
+                
+                // If already claimed today, do nothing
+                if (lastClaim === today) return;
+                
+                // If last claim was yesterday, increment streak
+                if (lastClaim && this.isYesterday(new Date(lastClaim))) {
+                    this.currentStreak++;
+                } else if (!lastClaim || !this.isConsecutiveDay(new Date(lastClaim))) {
+                    // Reset streak if not consecutive
+                    this.currentStreak = 0;
+                }
+                
+                // Show notification if reward is available
+                if (lastClaim !== today) {
+                    setTimeout(() => {
+                        this.showNotification('Daily Reward Available!', 'Claim your daily XP bonus in the Daily Rewards section.');
+                    }, 1000);
+                }
+            },
+            
+            // Claim daily reward
+            claimDailyReward() {
+                const today = new Date().toDateString();
+                const lastClaim = this.lastLoginDate ? new Date(this.lastLoginDate).toDateString() : null;
+                
+                if (lastClaim === today) {
+                    this.showNotification('Already Claimed', 'You have already claimed your daily reward today.');
+                    return;
+                }
+                
+                const rewardDay = this.currentStreak + 1;
+                const reward = this.dailyRewards[rewardDay - 1];
+                
+                if (reward) {
+                    this.addXP(reward.xp);
+                    this.claimedRewards.push(rewardDay);
+                    this.lastLoginDate = new Date().toISOString();
+                    this.currentStreak = rewardDay;
+                    
+                    this.saveToStorage();
+                    this.updateDailyRewardsUI();
+                    
+                    this.showNotification('Daily Reward Claimed!', `You received +${reward.xp} XP!`);
+                    
+                    // Play achievement sound
+                    if (this.soundEnabled) {
+                        document.getElementById('achievement-sound').play().catch(e => console.log('Audio play failed:', e));
+                    }
+                }
+            },
+            
+            // Helper function to check if a date is yesterday
+            isYesterday(date) {
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                return date.toDateString() === yesterday.toDateString();
+            },
+            
+            // Helper function to check if a date is consecutive (within 1 day)
+            isConsecutiveDay(date) {
+                const today = new Date();
+                const diffTime = Math.abs(today - date);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays <= 1;
+            },
+            
+            // Show notification
+            showNotification(title, message) {
+                const notification = document.getElementById('notification');
+                const notificationTitle = document.getElementById('notification-title');
+                const notificationMessage = document.getElementById('notification-message');
+                
+                notificationTitle.textContent = title;
+                notificationMessage.textContent = message;
+                
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            },
+            
+            // Show tutorial
+            showTutorial() {
+                const tutorialOverlay = document.getElementById('tutorial-overlay');
+                tutorialOverlay.classList.add('active');
+            },
+            
+            // Update audio based on settings
+            updateAudio() {
+                const bgMusic = document.getElementById('bg-music');
+                
+                if (this.musicEnabled) {
+                    bgMusic.volume = 0.5;
+                    bgMusic.play().catch(e => console.log('Music play failed:', e));
+                } else {
+                    bgMusic.pause();
+                }
+            },
+            
+            // Play sound effect
+            playSound(soundId) {
+                if (!this.soundEnabled) return;
+                
+                const sound = document.getElementById(soundId);
+                if (sound) {
+                    sound.currentTime = 0;
+                    sound.play().catch(e => console.log('Sound play failed:', e));
+                }
+            },
+            
+            // Check and update achievements
+            checkAchievements() {
+                let newAchievements = [];
+                
+                this.achievements.forEach(achievement => {
+                    if (achievement.achieved) return;
+                    
+                    let progressUpdated = false;
+                    
+                    switch (achievement.id) {
+                        case 'first_win':
+                            if (this.wins >= 1) {
+                                achievement.progress = 1;
+                                progressUpdated = true;
+                            }
+                            break;
+                        case 'five_wins':
+                            if (this.wins >= 5) {
+                                achievement.progress = this.wins;
+                                progressUpdated = true;
+                            }
+                            break;
+                        case 'ten_wins':
+                            if (this.wins >= 10) {
+                                achievement.progress = this.wins;
+                                progressUpdated = true;
+                            }
+                            break;
+                        case 'beat_rutu':
+                            // This would be set when winning against Rutu on hard difficulty
+                            break;
+                        case 'streak_5':
+                            if (this.currentStreak >= 5) {
+                                achievement.progress = this.currentStreak;
+                                progressUpdated = true;
+                            }
+                            break;
+                        case 'level_10':
+                            if (this.level >= 10) {
+                                achievement.progress = this.level;
+                                progressUpdated = true;
+                            }
+                            break;
+                        case 'perfect_game':
+                            // This would be set when winning without opponent making a move
+                            break;
+                        case 'draw_master':
+                            if (this.draws >= 10) {
+                                achievement.progress = this.draws;
+                                progressUpdated = true;
+                            }
+                            break;
+                    }
+                    
+                    if (progressUpdated && achievement.progress >= achievement.target) {
+                        achievement.achieved = true;
+                        newAchievements.push(achievement);
+                    }
+                });
+                
+                // Award new achievements
+                newAchievements.forEach(achievement => {
+                    this.addXP(achievement.xpReward);
+                    this.showNotification('Achievement Unlocked!', `${achievement.name} - ${achievement.xpReward} XP`);
+                    this.playSound('achievement-sound');
+                });
+                
+                if (newAchievements.length > 0) {
+                    this.saveToStorage();
+                    this.updateAchievementsUI();
+                }
             },
             
             // Add XP and check for level up
@@ -1540,9 +2537,12 @@
                     this.xp = this.xp - this.xpToNextLevel;
                     this.xpToNextLevel = this.level * 100;
                     
-                    // Show level up notification if implemented
+                    // Show level up notification
+                    this.showNotification('Level Up!', `You reached level ${this.level}!`);
+                    
+                    // Play achievement sound
                     if (this.soundEnabled) {
-                        // Play level up sound
+                        document.getElementById('achievement-sound').play().catch(e => console.log('Audio play failed:', e));
                     }
                 }
                 
@@ -1551,7 +2551,7 @@
             },
             
             // Record game result
-            recordResult(result) {
+            recordResult(result, mode) {
                 if (result === 'win') {
                     this.wins++;
                     this.currentStreak++;
@@ -1565,6 +2565,16 @@
                     this.draws++;
                     this.currentStreak = 0;
                 }
+                
+                // Update mode statistics
+                if (mode && this.modeStats[mode]) {
+                    if (result === 'win') this.modeStats[mode].wins++;
+                    else if (result === 'loss') this.modeStats[mode].losses++;
+                    else if (result === 'draw') this.modeStats[mode].draws++;
+                }
+                
+                // Check achievements
+                this.checkAchievements();
                 
                 this.saveToStorage();
                 this.updateUI();
@@ -1580,6 +2590,20 @@
                 this.draws = 0;
                 this.currentStreak = 0;
                 this.bestStreak = 0;
+                this.currentStreak = 0;
+                this.claimedRewards = [];
+                this.lastLoginDate = null;
+                
+                // Reset achievements
+                this.achievements.forEach(achievement => {
+                    achievement.achieved = false;
+                    achievement.progress = 0;
+                });
+                
+                // Reset mode stats
+                for (const mode in this.modeStats) {
+                    this.modeStats[mode] = { wins: 0, losses: 0, draws: 0 };
+                }
                 
                 this.saveToStorage();
                 this.updateUI();
@@ -1645,8 +2669,10 @@
                         gameState.saveToStorage();
                         
                         // Show versus animation for AI modes
-                        if (mode !== 'two-player') {
+                        if (mode !== 'two-player' && mode !== 'tournament') {
                             this.showVersusScreen();
+                        } else if (mode === 'tournament') {
+                            this.startTournament();
                         } else {
                             // For two-player mode, go directly to game
                             this.startGame();
@@ -1670,6 +2696,30 @@
                         gameState.saveToStorage();
                         this.showScreen('dashboard-screen');
                     });
+                });
+                
+                // Theme selection
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.theme-card')) {
+                        const themeCard = e.target.closest('.theme-card');
+                        const theme = themeCard.getAttribute('data-theme');
+                        gameState.currentTheme = theme;
+                        gameState.applyTheme();
+                        gameState.saveToStorage();
+                        gameState.updateThemesUI();
+                    }
+                });
+                
+                // Daily reward claim
+                document.addEventListener('click', (e) => {
+                    if (e.target.id === 'claim-reward') {
+                        gameState.claimDailyReward();
+                    }
+                });
+                
+                // Tutorial
+                document.getElementById('tutorial-next').addEventListener('click', () => {
+                    document.getElementById('tutorial-overlay').classList.remove('active');
                 });
             },
             
@@ -1733,6 +2783,23 @@
                 this.showScreen('game-screen');
             },
             
+            startTournament() {
+                // Initialize tournament state
+                gameState.tournament = {
+                    active: true,
+                    round: 1,
+                    matches: [
+                        { player1: gameState.username, player2: 'AI Easy', winner: null },
+                        { player1: 'AI Medium', player2: 'AI Hard', winner: null }
+                    ],
+                    players: [gameState.username, 'AI Easy', 'AI Medium', 'AI Hard'],
+                    winner: null
+                };
+                
+                // For now, just start a regular game
+                this.showVersusScreen();
+            },
+            
             showResults(result, xpEarned) {
                 const popup = document.getElementById('results-popup');
                 const title = document.getElementById('result-title');
@@ -1743,12 +2810,15 @@
                 if (result === 'win') {
                     title.textContent = 'You Win!';
                     message.textContent = 'Congratulations on your victory!';
+                    gameState.playSound('win-sound');
                 } else if (result === 'loss') {
                     title.textContent = 'You Lose!';
                     message.textContent = 'Better luck next time!';
+                    gameState.playSound('lose-sound');
                 } else {
                     title.textContent = "It's a Draw!";
                     message.textContent = 'The game ended in a tie.';
+                    gameState.playSound('draw-sound');
                 }
                 
                 xpEarnedElement.textContent = xpEarned;
@@ -1771,6 +2841,9 @@
 
         // Game Manager
         const gameManager = {
+            timer: null,
+            timeElapsed: 0,
+            
             initGame() {
                 // Reset game state
                 gameState.resetGame();
@@ -1783,6 +2856,11 @@
                 
                 // Update UI
                 this.updateGameUI();
+                
+                // Start timer for timed mode
+                if (gameState.currentMode === 'timed') {
+                    this.startTimer();
+                }
                 
                 // If playing against AI and AI goes first
                 if (!gameState.vsPlayer && Math.random() > 0.5) {
@@ -1816,7 +2894,8 @@
                         'big-board': 'Big Board 5x5',
                         'impossible': 'Impossible Mode',
                         'timed': 'Timed Mode',
-                        'xp-rush': 'XP Rush'
+                        'xp-rush': 'XP Rush',
+                        'tournament': 'Tournament Mode'
                     };
                     
                     modeElement.textContent = modeNames[gameState.currentMode] || 'Classic 3x3';
@@ -1862,6 +2941,29 @@
                 });
             },
             
+            startTimer() {
+                this.timeElapsed = 0;
+                const timerElement = document.getElementById('game-timer');
+                
+                if (this.timer) {
+                    clearInterval(this.timer);
+                }
+                
+                this.timer = setInterval(() => {
+                    this.timeElapsed++;
+                    const minutes = Math.floor(this.timeElapsed / 60);
+                    const seconds = this.timeElapsed % 60;
+                    timerElement.textContent = `Time: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                }, 1000);
+            },
+            
+            stopTimer() {
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
+            },
+            
             cellClicked(index) {
                 // Check if game is active and cell is empty
                 if (!gameState.gameActive || gameState.gameBoard[index] !== '') {
@@ -1872,6 +2974,9 @@
                 if (!gameState.vsPlayer && gameState.currentPlayer !== gameState.playerSymbol) {
                     return;
                 }
+                
+                // Play click sound
+                gameState.playSound('click-sound');
                 
                 // Make move
                 this.makeMove(index);
@@ -2090,10 +3195,26 @@
                 gameState.gameActive = false;
                 gameState.gameResult = result;
                 
+                // Stop timer for timed mode
+                if (gameState.currentMode === 'timed') {
+                    this.stopTimer();
+                }
+                
                 // Calculate XP earned
                 let xpEarned = 0;
                 if (result === 'win') {
                     xpEarned = 20;
+                    
+                    // Bonus for timed mode based on time
+                    if (gameState.currentMode === 'timed') {
+                        const timeBonus = Math.max(0, 10 - Math.floor(this.timeElapsed / 10));
+                        xpEarned += timeBonus;
+                    }
+                    
+                    // Bonus for XP Rush mode
+                    if (gameState.currentMode === 'xp-rush') {
+                        xpEarned += 20;
+                    }
                 } else if (result === 'draw') {
                     xpEarned = 10;
                 } else {
@@ -2102,7 +3223,7 @@
                 
                 // Add XP and record result
                 gameState.addXP(xpEarned);
-                gameState.recordResult(result);
+                gameState.recordResult(result, gameState.currentMode);
                 
                 // Highlight winning cells if there's a winner
                 if (result !== 'draw') {
@@ -2196,11 +3317,13 @@
             document.getElementById('sound-toggle').addEventListener('change', (e) => {
                 gameState.soundEnabled = e.target.checked;
                 gameState.saveToStorage();
+                gameState.updateAudio();
             });
             
             document.getElementById('music-toggle').addEventListener('change', (e) => {
                 gameState.musicEnabled = e.target.checked;
                 gameState.saveToStorage();
+                gameState.updateAudio();
             });
             
             document.getElementById('animations-toggle').addEventListener('change', (e) => {
@@ -2210,6 +3333,11 @@
             
             document.getElementById('vibration-toggle').addEventListener('change', (e) => {
                 gameState.vibrationEnabled = e.target.checked;
+                gameState.saveToStorage();
+            });
+            
+            document.getElementById('tutorial-toggle').addEventListener('change', (e) => {
+                gameState.tutorialEnabled = e.target.checked;
                 gameState.saveToStorage();
             });
             
