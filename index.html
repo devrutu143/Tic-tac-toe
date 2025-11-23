@@ -4,6 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Tic Tac Master</title>
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+      import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyA1B6aS-L2Celmq86GJvjK3AcLZsNIzHbo",
+        authDomain: "tic-tac-toe-200b1.firebaseapp.com",
+        databaseURL: "https://tic-tac-toe-200b1-default-rtdb.firebaseio.com",
+        projectId: "tic-tac-toe-200b1",
+        storageBucket: "tic-tac-toe-200b1.firebasestorage.app",
+        messagingSenderId: "796321744752",
+        appId: "1:796321744752:web:a413dc8c2ee7e24f0eb1b5",
+        measurementId: "G-47SNJ7NQ3J"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+      const db = getDatabase(app);
+      
+      // Make Firebase available globally
+      window.firebaseDb = db;
+      window.firebaseRef = ref;
+      window.firebaseSet = set;
+      window.firebaseOnValue = onValue;
+    </script>
+
     <style>
         :root {
             --primary: #6c5ce7;
@@ -1112,6 +1141,85 @@
             margin-bottom: 10px;
         }
 
+        /* Leaderboard Styles */
+        .leaderboard-container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .leaderboard-header {
+            display: grid;
+            grid-template-columns: 80px 1fr 100px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .leaderboard-list {
+            min-height: 200px;
+        }
+
+        .leaderboard-item {
+            display: grid;
+            grid-template-columns: 80px 1fr 100px;
+            padding: 15px 20px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .leaderboard-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .leaderboard-item.current-user {
+            background: rgba(108, 92, 231, 0.2);
+            border-left: 4px solid var(--primary);
+        }
+
+        .leaderboard-rank {
+            font-weight: 700;
+            color: var(--warning);
+        }
+
+        .leaderboard-name {
+            text-align: left;
+            padding-left: 15px;
+        }
+
+        .leaderboard-score {
+            font-weight: 600;
+            color: var(--success);
+        }
+
+        .loading-message, .error-message {
+            text-align: center;
+            padding: 40px 20px;
+            opacity: 0.7;
+        }
+
+        .leaderboard-item.rank-1 {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            border-left: 4px solid gold;
+        }
+
+        .leaderboard-item.rank-2 {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(192, 192, 192, 0.1));
+            border-left: 4px solid silver;
+        }
+
+        .leaderboard-item.rank-3 {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.2), rgba(205, 127, 50, 0.1));
+            border-left: 4px solid #cd7f32;
+        }
+
         /* Tournament Mode */
         .tournament-container {
             width: 100%;
@@ -1294,6 +1402,10 @@
             .themes-grid {
                 grid-template-columns: 1fr;
             }
+
+            .leaderboard-header, .leaderboard-item {
+                grid-template-columns: 60px 1fr 80px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1327,6 +1439,11 @@
 
             .rewards-calendar {
                 grid-template-columns: repeat(3, 1fr);
+            }
+
+            .leaderboard-header, .leaderboard-item {
+                grid-template-columns: 50px 1fr 70px;
+                padding: 10px 15px;
             }
         }
 
@@ -1466,6 +1583,11 @@
                     <div class="menu-title">AI Difficulty</div>
                     <div class="menu-desc">Set AI strength</div>
                 </div>
+                <div class="menu-item" data-screen="leaderboard-screen">
+                    <div class="menu-icon">🏆</div>
+                    <div class="menu-title">Leaderboard</div>
+                    <div class="menu-desc">Global rankings</div>
+                </div>
                 <div class="menu-item" data-screen="stats-screen">
                     <div class="menu-icon">📊</div>
                     <div class="menu-title">Statistics</div>
@@ -1597,6 +1719,25 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Leaderboard Screen -->
+    <div class="screen" id="leaderboard-screen">
+        <button class="back-btn" id="leaderboard-back">←</button>
+        <div class="leaderboard-container">
+            <h2>Global Leaderboard</h2>
+            <div class="card">
+                <div class="leaderboard-header">
+                    <span>Rank</span>
+                    <span>Player</span>
+                    <span>Wins</span>
+                </div>
+                <div class="leaderboard-list" id="leaderboard-list">
+                    <div class="loading-message">Loading leaderboard...</div>
+                </div>
+            </div>
+            <button class="btn" id="refresh-leaderboard" style="margin-top: 20px;">Refresh</button>
         </div>
     </div>
 
@@ -1838,70 +1979,6 @@
         </div>
     </div>
 
-    <!-- Rules Screen -->
-    <div class="screen" id="rules-screen">
-        <button class="back-btn" id="rules-back">←</button>
-        <div class="settings-container">
-            <h2>How to Play</h2>
-            <div class="card">
-                <h3 style="margin-bottom: 15px;">Tic Tac Toe Rules</h3>
-                <p style="margin-bottom: 15px; line-height: 1.6;">
-                    Tic Tac Toe is a classic game played on a 3x3 grid. Two players take turns marking spaces with X and O.
-                </p>
-                <p style="margin-bottom: 15px; line-height: 1.6;">
-                    The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row wins the game.
-                </p>
-                <p style="margin-bottom: 15px; line-height: 1.6;">
-                    If all nine squares are filled without either player achieving three in a row, the game is a draw.
-                </p>
-                
-                <h3 style="margin: 20px 0 15px;">Game Modes</h3>
-                <ul style="list-style-type: none; padding-left: 0;">
-                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
-                        <strong>Classic 3x3:</strong> Traditional Tic Tac Toe on a 3x3 grid.
-                    </li>
-                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
-                        <strong>Big Board 5x5:</strong> Expanded gameplay on a 5x5 grid.
-                    </li>
-                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
-                        <strong>Impossible Mode:</strong> Face the ultimate AI challenge.
-                    </li>
-                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
-                        <strong>2-Player:</strong> Play with a friend on the same device.
-                    </li>
-                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
-                        <strong>Timed Mode:</strong> Make moves before time runs out.
-                    </li>
-                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
-                        <strong>XP Rush:</strong> Earn bonus XP for quick victories.
-                    </li>
-                    <li style="margin-bottom: 10px; padding-left: 20px; position: relative;">
-                        <strong>Tournament Mode:</strong> Compete in a multi-round tournament.
-                    </li>
-                </ul>
-                
-                <h3 style="margin: 20px 0 15px;">Progression System</h3>
-                <p style="margin-bottom: 15px; line-height: 1.6;">
-                    Earn XP for every game you play:
-                </p>
-                <ul style="list-style-type: none; padding-left: 0;">
-                    <li style="margin-bottom: 8px; padding-left: 20px; position: relative;">
-                        <strong>Win:</strong> +20 XP
-                    </li>
-                    <li style="margin-bottom: 8px; padding-left: 20px; position: relative;">
-                        <strong>Draw:</strong> +10 XP
-                    </li>
-                    <li style="margin-bottom: 8px; padding-left: 20px; position: relative;">
-                        <strong>Loss:</strong> +5 XP
-                    </li>
-                </ul>
-                <p style="margin-top: 15px; line-height: 1.6;">
-                    Level up when you reach the XP threshold for your current level. Each level requires more XP than the previous one.
-                </p>
-            </div>
-        </div>
-    </div>
-
     <script>
         // Game State Management
         const gameState = {
@@ -1935,6 +2012,12 @@
             aiSymbol: 'O',
             aiName: 'AI',
             gameResult: null,
+            
+            // Firebase
+            firebase: {
+                db: null,
+                initialized: false
+            },
             
             // Achievement system
             achievements: [
@@ -2057,6 +2140,7 @@
             // Initialize from localStorage
             init() {
                 this.loadFromStorage();
+                this.initFirebase();
                 this.updateUI();
                 this.checkDailyReward();
                 this.applyTheme();
@@ -2066,6 +2150,82 @@
                     setTimeout(() => {
                         this.showTutorial();
                     }, 500);
+                }
+            },
+            
+            // Initialize Firebase
+            initFirebase() {
+                if (window.firebaseDb) {
+                    this.firebase.db = window.firebaseDb;
+                    this.firebase.initialized = true;
+                    console.log('Firebase initialized successfully');
+                } else {
+                    console.error('Firebase not available');
+                }
+            },
+            
+            // Save score to Firebase leaderboard
+            saveScore(username, score) {
+                if (!this.firebase.initialized) {
+                    console.error('Firebase not initialized');
+                    return;
+                }
+
+                try {
+                    const db = this.firebase.db;
+                    const leaderboardRef = window.firebaseRef(db, "leaderboard/" + username);
+                    
+                    window.firebaseSet(leaderboardRef, {
+                        name: username,
+                        score: score,
+                        lastUpdated: new Date().toISOString()
+                    }).then(() => {
+                        console.log('Score saved to leaderboard:', username, score);
+                    }).catch((error) => {
+                        console.error('Error saving score:', error);
+                    });
+                } catch (error) {
+                    console.error('Firebase error:', error);
+                }
+            },
+            
+            // Load leaderboard from Firebase
+            loadLeaderboard(callback) {
+                if (!this.firebase.initialized) {
+                    console.error('Firebase not initialized');
+                    if (callback) callback([]);
+                    return;
+                }
+
+                try {
+                    const db = this.firebase.db;
+                    const leaderboardRef = window.firebaseRef(db, "leaderboard");
+                    
+                    window.firebaseOnValue(leaderboardRef, (snapshot) => {
+                        const data = snapshot.val();
+                        const leaderboard = [];
+                        
+                        if (data) {
+                            for (const username in data) {
+                                leaderboard.push({
+                                    username: username,
+                                    name: data[username].name,
+                                    score: data[username].score || 0
+                                });
+                            }
+                            
+                            // Sort by score descending
+                            leaderboard.sort((a, b) => b.score - a.score);
+                        }
+                        
+                        if (callback) callback(leaderboard);
+                    }, (error) => {
+                        console.error('Error loading leaderboard:', error);
+                        if (callback) callback([]);
+                    });
+                } catch (error) {
+                    console.error('Firebase error:', error);
+                    if (callback) callback([]);
                 }
             },
             
@@ -2558,6 +2718,11 @@
                     if (this.currentStreak > this.bestStreak) {
                         this.bestStreak = this.currentStreak;
                     }
+                    
+                    // Save to Firebase leaderboard when player wins
+                    if (this.username && this.firebase.initialized) {
+                        this.saveScore(this.username, this.wins);
+                    }
                 } else if (result === 'loss') {
                     this.losses++;
                     this.currentStreak = 0;
@@ -2717,6 +2882,11 @@
                     }
                 });
                 
+                // Leaderboard refresh
+                document.getElementById('refresh-leaderboard').addEventListener('click', () => {
+                    this.updateLeaderboard();
+                });
+                
                 // Tutorial
                 document.getElementById('tutorial-next').addEventListener('click', () => {
                     document.getElementById('tutorial-overlay').classList.remove('active');
@@ -2736,10 +2906,45 @@
                     gameState.updateUI();
                 }
                 
+                // Load leaderboard when showing leaderboard screen
+                if (screenId === 'leaderboard-screen') {
+                    this.updateLeaderboard();
+                }
+                
                 // Special handling for game screen
                 if (screenId === 'game-screen') {
                     gameManager.initGame();
                 }
+            },
+            
+            updateLeaderboard() {
+                const leaderboardList = document.getElementById('leaderboard-list');
+                leaderboardList.innerHTML = '<div class="loading-message">Loading leaderboard...</div>';
+                
+                gameState.loadLeaderboard((leaderboard) => {
+                    if (leaderboard.length === 0) {
+                        leaderboardList.innerHTML = '<div class="error-message">No leaderboard data found</div>';
+                        return;
+                    }
+                    
+                    let html = '';
+                    leaderboard.forEach((player, index) => {
+                        const rank = index + 1;
+                        const isCurrentUser = player.username === gameState.username;
+                        const rankClass = rank <= 3 ? `rank-${rank}` : '';
+                        const userClass = isCurrentUser ? 'current-user' : '';
+                        
+                        html += `
+                            <div class="leaderboard-item ${rankClass} ${userClass}">
+                                <div class="leaderboard-rank">#${rank}</div>
+                                <div class="leaderboard-name">${player.name}</div>
+                                <div class="leaderboard-score">${player.score} wins</div>
+                            </div>
+                        `;
+                    });
+                    
+                    leaderboardList.innerHTML = html;
+                });
             },
             
             showVersusScreen() {
